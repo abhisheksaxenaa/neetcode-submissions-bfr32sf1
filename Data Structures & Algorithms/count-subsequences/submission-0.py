@@ -1,0 +1,20 @@
+class Solution:
+    def numDistinct(self, s: str, t: str) -> int:
+        M, N = len(s), len(t)
+        dp = [[-1] * (N + 1) for _ in range(M + 1)]
+        def solve(i, j):
+            if j == 0:
+                dp[i][j] = 1
+                return 1
+            if i == 0:
+                dp[i][j] = 0
+                return 0
+            if dp[i][j] != -1:
+                return dp[i][j]
+            temp = solve(i - 1, j)
+            if s[i - 1] == t[j - 1]:
+                temp += solve(i - 1, j - 1)
+            dp[i][j] = temp
+            return temp
+        total = solve(M, N)
+        return total
